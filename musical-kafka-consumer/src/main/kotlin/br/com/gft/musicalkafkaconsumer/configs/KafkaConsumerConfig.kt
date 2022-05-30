@@ -23,5 +23,5 @@ class KafkaConsumerConfig(
 
     @Bean
     fun kafkaListenerContainerFactory() =
-        ConcurrentKafkaListenerContainerFactory<String, String>().also { it.consumerFactory = consumerFactory() }
+        ConcurrentKafkaListenerContainerFactory<String, String>().apply { consumerFactory = consumerFactory() }
 }

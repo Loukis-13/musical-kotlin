@@ -10,14 +10,16 @@ import org.springframework.web.context.request.WebRequest
 @ControllerAdvice
 class ControllerExceptionHandler {
     @ExceptionHandler( NotFoundException::class )
-    fun handleNotFoundException(ex: NotFoundException, request: WebRequest): ResponseEntity<Error> {
-        val error = Error("Entidade não encontrada", ex.message!!, HttpStatus.NOT_FOUND)
-        return ResponseEntity(error, HttpHeaders(), error.status)
-    }
+    fun handleNotFoundException(ex: NotFoundException, request: WebRequest) = ResponseEntity(
+        Error("Entidade não encontrada", ex.message!!, HttpStatus.NOT_FOUND),
+        HttpHeaders(),
+        HttpStatus.NOT_FOUND
+    )
 
     @ExceptionHandler( NoSuchElementException::class )
-    fun handleNoSuchElementException(ex: NoSuchElementException, request: WebRequest): ResponseEntity<Error> {
-        val error = Error("Entidade não encontrada", ex.message!!, HttpStatus.NOT_FOUND)
-        return ResponseEntity(error, HttpHeaders(), error.status)
-    }
+    fun handleNoSuchElementException(ex: NoSuchElementException, request: WebRequest) = ResponseEntity(
+        Error("Entidade não encontrada", ex.message!!, HttpStatus.NOT_FOUND),
+        HttpHeaders(),
+        HttpStatus.NOT_FOUND
+    )
 }

@@ -11,10 +11,7 @@ import javax.transaction.Transactional
 @Repository
 class MusicaRepository(@Autowired val entityManager: EntityManager): MusicalRepository<Musica> {
     @Transactional
-    override fun save(entity: Musica): Musica {
-        entityManager.persist(entity)
-        return entity
-    }
+    override fun save(entity: Musica) = entityManager.persist(entity).run { entity }
 
     @Transactional
     override fun update(id: Int, entity: Musica): Musica {
@@ -23,16 +20,11 @@ class MusicaRepository(@Autowired val entityManager: EntityManager): MusicalRepo
         return entityManager.merge(entity)
     }
 
-    override fun findAll(): List<Musica> {
-        return entityManager.createQuery("SELECT m FROM Musica m", Musica::class.java).resultList
-    }
+    override fun findAll(): List<Musica> =
+        entityManager.createQuery("SELECT m FROM Musica m", Musica::class.java).resultList
 
-    override fun findById(id: Int): Optional<Musica> {
-        return Optional.ofNullable(entityManager.find(Musica::class.java, id))
-    }
+    override fun findById(id: Int) = Optional.ofNullable(entityManager.find(Musica::class.java, id))
 
     @Transactional
-    override fun deleteById(id: Int) {
-        entityManager.remove(findById(id).orElseThrow())
-    }
+    override fun deleteById(id: Int) = entityManager.remove(findById(id).orElseThrow())
 }

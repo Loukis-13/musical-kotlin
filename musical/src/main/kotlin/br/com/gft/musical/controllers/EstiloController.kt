@@ -2,36 +2,58 @@ package br.com.gft.musical.controllers
 
 import br.com.gft.musical.entities.Estilo
 import br.com.gft.musical.services.MusicalService
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("estilo")
 class EstiloController(val estiloService: MusicalService<Estilo>) {
     @GetMapping
-    fun findAll(): ResponseEntity<List<Estilo>> {
-        return ResponseEntity.ok(estiloService.getAll())
-    }
+    @Operation(
+        tags = ["Estilo"],
+        responses = [
+            ApiResponse(responseCode = "200", description = "Success")
+        ]
+    )
+    fun findAll() = estiloService.getAll()
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Int): ResponseEntity<Estilo> {
-        return ResponseEntity.ok(estiloService.searchEntity(id))
-    }
+    @Operation(
+        tags = ["Estilo"],
+        responses = [
+            ApiResponse(responseCode = "200", description = "Success"),
+            ApiResponse(responseCode = "404", description = "Not found")
+        ]
+    )
+    fun findById(@PathVariable id: Int) = estiloService.searchEntity(id)
 
     @PostMapping
-    fun save(@RequestBody estilo: Estilo): ResponseEntity<Estilo> {
-        return ResponseEntity.status(HttpStatus.CREATED).body(estiloService.saveEntity(estilo))
-    }
+    @Operation(
+        tags = ["Estilo"],
+        responses = [
+            ApiResponse(responseCode = "201", description = "Created entity")
+        ]
+    )
+    fun save(@RequestBody estilo: Estilo) = estiloService.saveEntity(estilo)
 
     @PutMapping("/{id}")
-    fun update(@RequestBody estilo: Estilo, @PathVariable id: Int): ResponseEntity<Estilo> {
-        return ResponseEntity.ok(estiloService.updateEntity(id, estilo))
-    }
+    @Operation(
+        tags = ["Estilo"],
+        responses = [
+            ApiResponse(responseCode = "200", description = "Update success"),
+            ApiResponse(responseCode = "404", description = "Not found"),
+        ]
+    )
+    fun update(@RequestBody estilo: Estilo, @PathVariable id: Int) = estiloService.updateEntity(id, estilo)
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Int): ResponseEntity<Void> {
-        estiloService.deleteEntity(id)
-        return ResponseEntity.noContent().build()
-    }
+    @Operation(
+        tags = ["Estilo"],
+        responses = [
+            ApiResponse(responseCode = "204", description = "No content"),
+            ApiResponse(responseCode = "404", description = "Not found"),
+        ]
+    )
+    fun delete(@PathVariable id: Int) = estiloService.deleteEntity(id)
 }

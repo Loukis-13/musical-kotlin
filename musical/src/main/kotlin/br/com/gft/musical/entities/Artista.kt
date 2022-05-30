@@ -16,5 +16,5 @@ class Artista(
 
     @OneToMany(mappedBy = "artista")
     @JsonIgnoreProperties("artista")
-    val musicas: List<Musica>? = null,
+    var musicas: List<Musica>? = null,
 )

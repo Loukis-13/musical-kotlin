@@ -2,6 +2,8 @@ package br.com.gft.musical.controllers
 
 import br.com.gft.musical.entities.Musica
 import br.com.gft.musical.services.MusicalService
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -10,28 +12,50 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("musica")
 class MusicaController(val musicaService: MusicalService<Musica>) {
     @GetMapping
-    fun findAll(): ResponseEntity<List<Musica>> {
-        return ResponseEntity.ok(musicaService.getAll())
-    }
+    @Operation(
+        tags = ["Musica"],
+        responses = [
+            ApiResponse(responseCode = "200", description = "Success")
+        ]
+    )
+    fun findAll() = musicaService.getAll()
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Int): ResponseEntity<Musica> {
-        return ResponseEntity.ok(musicaService.searchEntity(id))
-    }
+    @Operation(
+        tags = ["Musica"],
+        responses = [
+            ApiResponse(responseCode = "200", description = "Success"),
+            ApiResponse(responseCode = "404", description = "Not found")
+        ]
+    )
+    fun findById(@PathVariable id: Int) = musicaService.searchEntity(id)
 
     @PostMapping
-    fun save(@RequestBody musica: Musica): ResponseEntity<Musica> {
-        return ResponseEntity.status(HttpStatus.CREATED).body(musicaService.saveEntity(musica))
-    }
+    @Operation(
+        tags = ["Musica"],
+        responses = [
+            ApiResponse(responseCode = "201", description = "Created entity")
+        ]
+    )
+    fun save(@RequestBody musica: Musica) = musicaService.saveEntity(musica)
 
     @PutMapping("/{id}")
-    fun update(@RequestBody musica: Musica, @PathVariable id: Int): ResponseEntity<Musica> {
-        return ResponseEntity.ok(musicaService.updateEntity(id, musica))
-    }
+    @Operation(
+        tags = ["Musica"],
+        responses = [
+            ApiResponse(responseCode = "200", description = "Update success"),
+            ApiResponse(responseCode = "404", description = "Not found"),
+        ]
+    )
+    fun update(@RequestBody musica: Musica, @PathVariable id: Int) = musicaService.updateEntity(id, musica)
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Int): ResponseEntity<Void> {
-        musicaService.deleteEntity(id)
-        return ResponseEntity.noContent().build()
-    }
+    @Operation(
+        tags = ["Musica"],
+        responses = [
+            ApiResponse(responseCode = "204", description = "No content"),
+            ApiResponse(responseCode = "404", description = "Not found"),
+        ]
+    )
+    fun delete(@PathVariable id: Int) = musicaService.deleteEntity(id)
 }
