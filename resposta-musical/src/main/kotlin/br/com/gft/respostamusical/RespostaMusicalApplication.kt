@@ -1,4 +1,4 @@
-package br.com.gft.musical
+package br.com.gft.respostamusical
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -6,8 +6,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
 @EnableFeignClients
-class MusicalKotlinApplication
+class RespostaMusicalApplication
 
 fun main(args: Array<String>) {
-	runApplication<MusicalKotlinApplication>(*args)
+	runApplication<RespostaMusicalApplication>(*args)
 }
