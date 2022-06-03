@@ -4,8 +4,6 @@ import br.com.gft.musical.entities.Musica
 import br.com.gft.musical.services.MusicalService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController

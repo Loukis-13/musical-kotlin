@@ -4,7 +4,6 @@ import br.com.gft.musical.entities.Estilo
 import br.com.gft.musical.repositories.MusicalRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
-import java.util.*
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
 
@@ -15,7 +14,7 @@ class EstiloRepository(@Autowired val entityManager: EntityManager): MusicalRepo
 
     @Transactional
     override fun update(id: Int, entity: Estilo): Estilo {
-        findById(id).orElseThrow()
+        findById(id)
         entity.id = id
         return entityManager.merge(entity)
     }
@@ -23,8 +22,9 @@ class EstiloRepository(@Autowired val entityManager: EntityManager): MusicalRepo
     override fun findAll(): List<Estilo> =
         entityManager.createQuery("SELECT e FROM Estilo e", Estilo::class.java).resultList
 
-    override fun findById(id: Int) = Optional.ofNullable(entityManager.find(Estilo::class.java, id))
+    override fun findById(id: Int): Estilo =
+        entityManager.find(Estilo::class.java, id) ?: throw NoSuchElementException("Estilo não encontrado")
 
     @Transactional
-    override fun deleteById(id: Int) = entityManager.remove(findById(id).orElseThrow())
+    override fun deleteById(id: Int) = entityManager.remove(findById(id))
 }

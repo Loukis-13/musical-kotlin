@@ -15,7 +15,7 @@ class ArtistaRepository(@Autowired val entityManager: EntityManager): MusicalRep
 
     @Transactional
     override fun update(id: Int, entity: Artista): Artista {
-        findById(id).orElseThrow()
+        findById(id)
         entity.id = id
         return entityManager.merge(entity)
     }
@@ -23,8 +23,9 @@ class ArtistaRepository(@Autowired val entityManager: EntityManager): MusicalRep
     override fun findAll(): List<Artista> =
         entityManager.createQuery("SELECT a FROM Artista a", Artista::class.java).resultList
 
-    override fun findById(id: Int) = Optional.ofNullable(entityManager.find(Artista::class.java, id))
+    override fun findById(id: Int) =
+        entityManager.find(Artista::class.java, id) ?: throw NoSuchElementException("Artista não encontrado")
 
-    @Transactional
-    override fun deleteById(id: Int) = entityManager.remove(findById(id).orElseThrow())
+        @Transactional
+    override fun deleteById(id: Int) = entityManager.remove(findById(id))
 }
