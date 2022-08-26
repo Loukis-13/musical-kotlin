@@ -1,5 +1,7 @@
 # musical-kotlin
-Micro-APIs para implementar um fluxo com interação com um usuário, banco de dados e Kafka.
+Micro-APIs para implementar um fluxo com interação com um usuário, banco de dados e Kafka.  
+
+![](musical.png)
 
 Cada micro-serviço possui uma função principal:  
 * **resposta-musical** - Expor as rotas no gateway e receber chamadas do usuário  
